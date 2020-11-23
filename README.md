@@ -5,6 +5,8 @@ Todo:
     *  audio features mit Essentia extrahieren 
     * später dann Visualisierung 
 
+![timetable](/images/zeitplanKPAudio.png)
+
 Features: 
 * Loudness (RMS, …) 
 * spectral flux
@@ -37,3 +39,5 @@ Features:
 * Other high-level descriptors 
     * DynamicComplexity 
 * Additionally look for audio problems?
+
+![screenshot from consultation](/images/features_screenshot.png)
