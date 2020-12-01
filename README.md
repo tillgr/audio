@@ -8,36 +8,44 @@ Todo:
 ![timetable](/images/zeitplanKPAudio.png)
 
 Features: 
-* Loudness (RMS, …) 
-* spectral flux
-* FrequencyBands
-* SpectralCentroid
-* (SpectralPeaks)
+* [x] avg Loudness (RMS, …) 
+* [x] spectral flux
+* [ ] FrequencyBands
+* [x] SpectralCentroid
+* [x] SpectralComplexity
+* [ ] (SpectralPeaks)
+
 
 * spectral 
-    * MelBands 
-    * MFCC 
-    * HFC 
-    * Spectral Contrast 
-    * (Panning) 
-    * Inharmonicity/dissonace 
+* [x]  MelBands 
+* [x]  MFCC 
+* [x]  HFC 
+* [x]  Spectral Contrast 
+* [ ]  (Panning) 
+* [x]  Inharmonicity/dissonace
+ 
 * Time 
-    * ZCR 
-    * Leq, LARM, Loudness and LoudnessVicker 
+* [x]  ZCR 
+* [ ]  Leq, LARM, Loudness and LoudnessVicker 
+
 * Tonal  
-    * HPCP/ Chroma
-    * PitchYinFFT 
-    * (tuning frequency) 
-    * (key)
-    * (use TonalExtractor?)
+* [x]  HPCP/ Chroma
+* [ ]  PitchYinFFT 
+* [ ]  (tuning frequency) 
+* [x]  (key)
+* [ ]  (use TonalExtractor?)
+
 * Rhythm 
-    * BpmHistogramDescriptors/ BpmHistogram
-    * (TempoCNN)
+* [ ]  BpmHistogramDescriptors/ BpmHistogram
+* [ ]  (TempoCNN)
+
 * SFX descriptors 
-    * TCToTotal 
-    * (MaxToTotal and MinToTotal) 
+* [ ]  TCToTotal 
+* [ ]  (MaxToTotal and MinToTotal) 
+
 * Other high-level descriptors 
-    * DynamicComplexity 
-* Additionally look for audio problems?
+* [x]  DynamicComplexity  
+
+* [ ]  Additionally look for audio problems? 
 
 ![screenshot from consultation](/images/features_screenshot.png)
