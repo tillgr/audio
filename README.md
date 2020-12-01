@@ -1,9 +1,12 @@
 # AudioFeature-B
 Todo: 
-* Essentia zum laufen bekommen 
 * Cinder Anwendung 
-    *  audio features mit Essentia extrahieren 
+    * audio features mit Essentia extrahieren 
     * später dann Visualisierung 
+
+**up next**
+* read extracted features from yaml file into cinder app
+
 
 ![timetable](/images/zeitplanKPAudio.png)
 
