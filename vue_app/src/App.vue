@@ -1,10 +1,12 @@
 <template>
   <span id="app">
   <Navbar></Navbar>
-
+    <div class="container">
+      <Sidebar></Sidebar>
+      <MainView></MainView>
+    </div>
 <!--    <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <Sidebar></Sidebar>
   </span>
 </template>
 
@@ -12,12 +14,14 @@
 /*import HelloWorld from './components/HelloWorld.vue'*/
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
+import MainView from "@/components/MainView";
 
 export default {
   name: 'App',
   components: {
     Sidebar,
-    Navbar
+    Navbar,
+    MainView
   }
 }
 </script>
@@ -31,7 +35,13 @@ export default {
   color: #2c3e50;
   /*margin-top: 60px;*/
 }
+
 body{
   margin: 0;
+}
+.container{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
 }
 </style>

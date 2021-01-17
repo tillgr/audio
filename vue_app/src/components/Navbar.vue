@@ -1,7 +1,8 @@
 <template>
   <header class="header">
     <nav>
-      <a>Bla bla bla</a>
+      <img src="" alt="">
+      <a>KP AUDIO: Catalog Browser (Team B)</a>
     </nav>
   </header>
 </template>
@@ -14,8 +15,11 @@ name: "Header"
 
 <style scoped>
 .header{
-  display: block;
-  background-color: gray;
+  display: flex;
+  background-color: lightgray;
   font-size: 2rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
 }
 </style>

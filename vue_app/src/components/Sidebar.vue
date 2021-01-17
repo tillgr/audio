@@ -59,9 +59,10 @@ export default {
 
 <style scoped>
 .sidebar {
-  width: 20%;
+  width: 14%;
   display: block;
-  background-color: gray;
+  background-color: lightgray;
+  left: 0;
 }
 
 #v-model-radiobutton {
@@ -73,7 +74,7 @@ export default {
 #glyph-container {
   display: flex;
   width: 100%;
-  height: 10rem;
+  height: 12rem;
   background-color: #42b983;
   margin-bottom: 1rem;
   justify-content: center;
