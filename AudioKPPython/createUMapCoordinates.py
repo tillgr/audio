@@ -23,9 +23,11 @@ if __name__ == "__main__":
     dataFolder = pl.Path("../../EXTRACT_FSDKaggle2018.audio_train").rglob("*.json")
 
     data = []
+    names = []
 
     for file in dataFolder:
         dataPoint = []
+        names.append(file.stem)
 
         jsonFile = open(file, "r")
         jsonFileContent = jsonFile.read()
@@ -49,7 +51,12 @@ if __name__ == "__main__":
     print(embedding.shape)
 
     plot_data("coordUmap", embedding[:, 0], embedding[:, 1])
-    coordFile = "coordinates.json"
+
+    if len(names) == embedding.shape[0]:
+        print("dimensions are equal")
+        for i in range(len(names)):
+            filename = "coord/{}_coo.json".format(names[i])
+            json.dump(embedding[i].tolist(), open(filename, 'w', encoding='utf-8'), indent=4)
 
 
 
