@@ -52,11 +52,25 @@ if __name__ == "__main__":
 
     plot_data("coordUmap", embedding[:, 0], embedding[:, 1])
 
-    if len(names) == embedding.shape[0]:
-        print("dimensions are equal")
-        for i in range(len(names)):
+    completeDict = []
+    if len(data) == len(embedding) and len(names) == embedding.shape[0]:
+        for i in range(len(embedding)):
+            singleEntry = {'name': names[i],
+                           'x': float(embedding[i][0]),
+                           'y': float(embedding[i][1]),
+                           'loudness': float(data[i][0]),
+                           'raspiness': float(data[i][1]),
+                           'color': float(data[i][2]),
+                           'location': float(data[i][3]),
+                           'stability': float(data[i][4]),
+                           'tonality': float(data[i][5])}
+            completeDict.append(singleEntry)
+
+            # write single entry files
             filename = "coord/{}_coo.json".format(names[i])
-            json.dump(embedding[i].tolist(), open(filename, 'w', encoding='utf-8'), indent=4)
+            json.dump(singleEntry, open(filename, 'w', encoding='utf-8'), indent=4)
+
+        json.dump(completeDict, open("coord/completeDict.json", 'w', encoding='utf-8'), indent=4)
 
 
 
