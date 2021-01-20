@@ -8,10 +8,10 @@ export default class GlyphGraph {
     // set basic view coordinates so all data points are show
     let xMinMax = d3.extent(dataSet.reduce(function(a,b) { return a.concat(b.x) }, []));
     let yMinMax = d3.extent(dataSet.reduce(function(a,b) { return a.concat(b.y) }, []));
-    this.visibleCoordinates = { xMin: xMinMax[0] - 10,
-                                xMax: xMinMax[1] + 10,
-                                yMin: yMinMax[0] - 10,
-                                yMax: yMinMax[1] + 10};
+    this.visibleCoordinates = { xMin: xMinMax[0] - 1,
+                                xMax: xMinMax[1] + 1,
+                                yMin: yMinMax[0] - 1,
+                                yMax: yMinMax[1] + 1};
   }
 
   drawGlyphGraph() {

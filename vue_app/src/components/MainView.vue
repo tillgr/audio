@@ -9,44 +9,30 @@
 <script>
 import ZoomControls from "@/components/ZoomControls";
 import GlyphGraph from "@/glyphGraph";
-// import * as d3 from "d3";
+import soundData from "../../../AudioKPPython/coord/completeDict.json"
 
 export default {
   name: "MainView",
   components:{
     ZoomControls
   },
-
+  data() {
+    return {
+      dataSet: soundData
+    };
+  },
+  methods: {
+  },
   mounted() {
-
-    const data = [{x: 200, y: 400},
+    console.log(this.dataSet);
+    /*const data = [{x: 200, y: 400},
                   {x: 100, y: 200},
                   {x: 600, y: 400},
-                  {x: 0.9, y: 0.5}];
-    const graph = new GlyphGraph(data, "graph");
+                  {x: 0.9, y: 0.5}];*/
+    const graph = new GlyphGraph(this.dataSet, "graph");
     graph.drawGlyphGraph();
 
-    /*const dataSet = [{x: 0.5, y: 0.5},
-      {x: 0.1, y: 0.9},
-      {x: 2.5, y: 80},
-      {x: 0.9, y: 0.5}];
 
-    const containerWidth = document.getElementById("graph").clientWidth;
-    const containerHeight = document.getElementById("graph").clientHeight;
-
-    const svg = d3.select(`#graph`)
-        .append('svg')
-        .attr('width', containerWidth)
-        .attr('height', containerHeight)
-    const graph = svg.append('g')
-
-    graph.selectAll('circle').data(dataSet)
-        .enter()
-        .append('circle')
-        .attr('class', 'circle')
-        .attr('r', '20px')
-        .attr('cx', d => d.x )
-        .attr('cy', d => d.y )*/
   }
 }
 
