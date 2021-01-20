@@ -1,17 +1,31 @@
 <template>
 <div class="zoomControls">
-  <div id="plus" class="zoomControl">
+  <button id="plus" class="zoomControl" v-on:click="$emit('zoom-in')">
     +
-  </div>
-  <div id="minus" class="zoomControl">
+  </button>
+  <button id="minus" class="zoomControl" v-on:click="$emit('zoom-out')">
     -
-  </div>
+  </button>
+
+  <button id="up" class="zoomControl" v-on:click="$emit('move-up')">
+    u
+  </button>
+  <button id="down" class="zoomControl" v-on:click="$emit('move-down')">
+    d
+  </button>
+  <button id="left" class="zoomControl" v-on:click="$emit('move-left')">
+    l
+  </button>
+  <button id="right" class="zoomControl" v-on:click="$emit('move-right')">
+    r
+  </button>
+
 </div>
 </template>
 
 <script>
 export default {
-  name: "ZoomControls"
+  name: "ZoomControls",
 }
 </script>
 
@@ -30,7 +44,7 @@ export default {
   }
   .zoomControls{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: fit-content;
   }
 </style>

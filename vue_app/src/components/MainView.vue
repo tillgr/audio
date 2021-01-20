@@ -1,8 +1,14 @@
 <template>
-  <div class="MainView">
-    <ZoomControls></ZoomControls>
-    <div id= "graph" class="d3js-container">
-    </div>
+  <div class="MainView"  @keyup="move('up')">
+    <ZoomControls
+        v-on:zoom-in = "zoom(0.2)"
+        v-on:zoom-out = "zoom(-1/3)"
+        v-on:move-up = "move('up')"
+        v-on:move-down = "move('down')"
+        v-on:move-left = "move('left')"
+        v-on:move-right = "move('right')">
+    </ZoomControls>
+    <div id= "graph" class="d3js-container" ></div>
   </div>
 </template>
 
@@ -65,18 +71,52 @@ export default {
           .attr('r', '5px')
           .attr('cx', d => xScale(d.x) )
           .attr('cy', d => yScale(d.y) )
-    }
+    },
+    redrawGlyphGraph() {
+      let canvas = document.getElementById(this.id)
+      canvas.removeChild(canvas.childNodes[0]);
+      this.drawGlyphGraph();
+    },
+    zoom(direction) {
+      let  diffX = (this.visibleCoordinates.xMax - this.visibleCoordinates.xMin)  * direction;
+      let  diffY = (this.visibleCoordinates.yMax - this.visibleCoordinates.yMin)  * direction;
+      this.visibleCoordinates = { xMin: this.visibleCoordinates.xMin + diffX,
+        xMax: this.visibleCoordinates.xMax - diffX,
+        yMin: this.visibleCoordinates.yMin + diffY,
+        yMax: this.visibleCoordinates.yMax - diffY };
+      this.redrawGlyphGraph();
+    },
+    move(directionString) {
+      // console.log("key pressed up");
+      let  diffX = (this.visibleCoordinates.xMax - this.visibleCoordinates.xMin) *0.2;
+      let  diffY = (this.visibleCoordinates.yMax - this.visibleCoordinates.yMin) *0.2;
+      switch(directionString) {
+        case "up":
+          this.visibleCoordinates.yMin += diffY;
+          this.visibleCoordinates.yMax += diffY;
+          break;
+        case "down":
+          this.visibleCoordinates.yMin -= diffY;
+          this.visibleCoordinates.yMax -= diffY;
+          break;
+        case "left":
+          this.visibleCoordinates.xMin -= diffX;
+          this.visibleCoordinates.xMax -= diffX;
+          break;
+        case "right":
+          this.visibleCoordinates.xMin += diffX;
+          this.visibleCoordinates.xMax += diffX;
+          break;
+      }
+      this.redrawGlyphGraph();
+    },
   },
   mounted() {
     this.init();
     this.drawGlyphGraph();
-
-
-  }
+    }
 }
 
-
-  
 </script>
 
 <style scoped>
