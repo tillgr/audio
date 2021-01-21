@@ -72,41 +72,39 @@ export default {
       let glyphRadius = 2.0 * scalingFactor
 
 
-      graph.selectAll('circle').data(this.dataSet)
-          .enter()
-          .append('circle')
-          .attr('class', 'innerGlyphCircle')
-          .attr('r', `${glyphRadius}px`)
-          .attr('cx', d => xScale(d.x) )
-          .attr('cy', d => yScale(d.y) )
-          .attr('fill', d => this.circleAttr(d).innerFill)
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
-          .attr('stroke-width', `${glyphRadius / 10.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).inner)
+      var glyphs = graph.selectAll('g').data(this.dataSet).enter();
 
+      glyphs.append('circle')
+            .attr('class', 'innerGlyphCircle')
+            .attr('r', `${glyphRadius}px`)
+            .attr('cx', d => xScale(d.x) )
+            .attr('cy', d => yScale(d.y) )
+            .attr('fill', d => this.circleAttr(d).innerFill)
+            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black')
+            .attr('visibility', d => this.circleAttr(d).inner);
 
-      graph.selectAll('circle').data(this.dataSet)
-          .append('circle')
-          .attr('class', 'middleGlyphCircle')
-          .attr('r', `${glyphRadius * 2}px`)
-          .attr('cx', d => xScale(d.x) )
-          .attr('cy', d => yScale(d.y) )
-          .attr('fill', 'red')
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
-          .attr('stroke-width', `${glyphRadius / 10.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).middle)
-          .append('circle')
-          .attr('class', 'outerGlyphCircle')
-          .attr('r', `${glyphRadius * 1.15}px`)
-          .attr('cx', d => xScale(d.x) )
-          .attr('cy', d => yScale(d.y) )
-          .attr('fill', 'none')
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
-          .attr('stroke-width', `${glyphRadius / 10.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).outer);
+      glyphs.append('circle')
+            .attr('class', 'middleGlyphCircle')
+            .attr('r', `${glyphRadius * 1.15}px`)
+            .attr('cx', d => xScale(d.x) )
+            .attr('cy', d => yScale(d.y) )
+            .attr('fill', 'none')
+            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black')
+            .attr('visibility', d => this.circleAttr(d).middle);
+      glyphs.append('circle')
+            .attr('class', 'outerGlyphCircle')
+            .attr('r', `${glyphRadius * 1.3}px`)
+            .attr('cx', d => xScale(d.x) )
+            .attr('cy', d => yScale(d.y) )
+            .attr('fill', 'none')
+            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black')
+            .attr('visibility', d => this.circleAttr(d).outer);
     },
     circleAttr(dataPoint) {
       let attr = {inner: 'hidden',
@@ -122,7 +120,7 @@ export default {
         attr.middle = 'visible';
       }
       if (dataPoint.loudness >= 0.66) {
-        attr.inner = 'visible';
+        attr.outer = 'visible';
       }
       // raspiness
       if (0.06 <= dataPoint.raspiness <= 0.12) {
