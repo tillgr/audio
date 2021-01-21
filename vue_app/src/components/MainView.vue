@@ -27,7 +27,9 @@ export default {
       dataSet: soundData,
       id: "",
       graph: Object,
-      visibleCoordinates: {}
+      graphDimensions: {},
+      visibleCoordinates: {},
+      startingDimensions: {}
     };
   },
   methods: {
@@ -39,41 +41,105 @@ export default {
                                   xMax: xMinMax[1] + 1,
                                   yMin: yMinMax[0] - 1,
                                   yMax: yMinMax[1] + 1};
+      this.startingDimensions = this.visibleCoordinates;
     },
     drawGlyphGraph() {
       // create svg object of the graph in the correct DOM Object (this.id)
-
       // TODO get graph to fill whole height
-      const graphWidth = document.getElementById("graph").clientWidth;
-      const graphHeight = document.getElementById("graph").clientHeight;
-      console.log(graphWidth, graphHeight);
+      this.graphDimensions = {width: document.getElementById("graph").clientWidth,
+        height: document.getElementById("graph").clientHeight}
+      console.log(this.graphDimensions.width, this.graphDimensions.height);
 
       const svg = d3.select(`#${this.id}`)
           .append('svg')
-          .attr('width', graphWidth)
-          .attr('height', graphHeight)
+          .attr('width', this.graphDimensions.width)
+          .attr('height', this.graphDimensions.height)
           .attr('position', 'absolute');
       // scales
       const xScale = d3.scaleLinear()
           .domain([this.visibleCoordinates.xMin, this.visibleCoordinates.xMax])
-          .range([0, graphWidth]);
+          .range([0, this.graphDimensions.width]);
       const yScale = d3.scaleLinear()
           .domain([this.visibleCoordinates.yMin, this.visibleCoordinates.yMax])
-          .range([graphHeight, 0]);
+          .range([this.graphDimensions.height, 0]);
 
 
       const graph = svg.append('g')
 
+
+      // set values for Glyphs
+      const scalingFactor = (this.startingDimensions.xMax - this.startingDimensions.xMin) / (this.visibleCoordinates.xMax - this.visibleCoordinates.xMin);
+      let glyphRadius = 2.0 * scalingFactor
+
+
       graph.selectAll('circle').data(this.dataSet)
           .enter()
           .append('circle')
-          .attr('class', 'circle')
-          .attr('r', '5px')
+          .attr('class', 'innerGlyphCircle')
+          .attr('r', `${glyphRadius}px`)
           .attr('cx', d => xScale(d.x) )
           .attr('cy', d => yScale(d.y) )
+          .attr('fill', d => this.circleAttr(d).innerFill)
+          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+          .attr('stroke-width', `${glyphRadius / 10.0}px`)
+          .attr('stroke', 'black')
+          .attr('visibility', d => this.circleAttr(d).inner)
+
+
+      graph.selectAll('circle').data(this.dataSet)
+          .append('circle')
+          .attr('class', 'middleGlyphCircle')
+          .attr('r', `${glyphRadius * 2}px`)
+          .attr('cx', d => xScale(d.x) )
+          .attr('cy', d => yScale(d.y) )
+          .attr('fill', 'red')
+          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+          .attr('stroke-width', `${glyphRadius / 10.0}px`)
+          .attr('stroke', 'black')
+          .attr('visibility', d => this.circleAttr(d).middle)
+          .append('circle')
+          .attr('class', 'outerGlyphCircle')
+          .attr('r', `${glyphRadius * 1.15}px`)
+          .attr('cx', d => xScale(d.x) )
+          .attr('cy', d => yScale(d.y) )
+          .attr('fill', 'none')
+          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray )
+          .attr('stroke-width', `${glyphRadius / 10.0}px`)
+          .attr('stroke', 'black')
+          .attr('visibility', d => this.circleAttr(d).outer);
+    },
+    circleAttr(dataPoint) {
+      let attr = {inner: 'hidden',
+                  middle: 'hidden',
+                  outer: 'hidden',
+                  innerFill: 'none',
+                  strokeDasharray: '5, 0'}
+      // loudness
+      if (dataPoint.loudness > 0.0){
+        attr.inner = 'visible';
+      }
+      if (dataPoint.loudness >= 0.33) {
+        attr.middle = 'visible';
+      }
+      if (dataPoint.loudness >= 0.66) {
+        attr.inner = 'visible';
+      }
+      // raspiness
+      if (0.06 <= dataPoint.raspiness <= 0.12) {
+        attr.strokeDasharray = '2, 2';
+      } else if (dataPoint.raspiness > 0.12) {
+        attr.strokeDasharray = '4, 4';
+      }
+      // tonality
+      if (0.0 <= dataPoint.tonality <= 1.0) {
+        const saturation = (dataPoint.tonality - 0.2) / 0.3 * 100;
+        attr.innerFill = `hsl(202, ${saturation}%, 57%)`;
+      }
+      return attr
+
     },
     redrawGlyphGraph() {
-      let canvas = document.getElementById(this.id)
+      let canvas = document.getElementById(this.id);
       canvas.removeChild(canvas.childNodes[0]);
       this.drawGlyphGraph();
     },
@@ -81,9 +147,11 @@ export default {
       let  diffX = (this.visibleCoordinates.xMax - this.visibleCoordinates.xMin)  * direction;
       let  diffY = (this.visibleCoordinates.yMax - this.visibleCoordinates.yMin)  * direction;
       this.visibleCoordinates = { xMin: this.visibleCoordinates.xMin + diffX,
-        xMax: this.visibleCoordinates.xMax - diffX,
-        yMin: this.visibleCoordinates.yMin + diffY,
-        yMax: this.visibleCoordinates.yMax - diffY };
+                                  xMax: this.visibleCoordinates.xMax - diffX,
+                                  yMin: this.visibleCoordinates.yMin + diffY,
+                                  yMax: this.visibleCoordinates.yMax - diffY };
+      /*this.graphDimensions.width += this.graphDimensions.width * direction;
+      this.graphDimensions.height += this.graphDimensions.height * direction;*/
       this.redrawGlyphGraph();
     },
     move(directionString) {
@@ -109,7 +177,7 @@ export default {
           break;
       }
       this.redrawGlyphGraph();
-    },
+    }
   },
   mounted() {
     this.init();
