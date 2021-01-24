@@ -7,7 +7,7 @@
     -
   </button>
 
-  <button id="up" class="zoomControl" v-on:click="$emit('move-up')">
+<!--  <button id="up" class="zoomControl" v-on:click="$emit('move-up')">
     u
   </button>
   <button id="down" class="zoomControl" v-on:click="$emit('move-down')">
@@ -18,7 +18,7 @@
   </button>
   <button id="right" class="zoomControl" v-on:click="$emit('move-right')">
     r
-  </button>
+  </button>-->
 
 </div>
 </template>

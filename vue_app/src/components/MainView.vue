@@ -2,11 +2,11 @@
   <div class="MainView" @keyup="move('up')">
     <ZoomControls
         v-on:zoom-in="zoomIn()"
-        v-on:zoom-out="zoomOut()"
-        v-on:move-up="move('up')"
+        v-on:zoom-out="zoomOut()">
+<!--        v-on:move-up="move('up')"
         v-on:move-down="move('down')"
         v-on:move-left="move('left')"
-        v-on:move-right="move('right')">
+        v-on:move-right="move('right')">-->
     </ZoomControls>
     <div id="graph" class="d3js-container"></div>
   </div>
@@ -87,7 +87,7 @@ export default {
       let glyphRadius = 2.0 * scalingFactor
 
 
-      var glyphs = graph.selectAll('g').data(this.dataSet).enter();
+      let glyphs = graph.selectAll('g').data(this.dataSet).enter();
 
       glyphs.append('circle')
           .attr('class', 'innerGlyphCircle')
@@ -141,9 +141,9 @@ export default {
       }
       // raspiness
       if (0.06 <= dataPoint.raspiness <= 0.12) {
-        attr.strokeDasharray = '2, 2';
+        attr.strokeDasharray = '1, 0.1';
       } else if (dataPoint.raspiness > 0.12) {
-        attr.strokeDasharray = '4, 4';
+        attr.strokeDasharray = '0.5, 0.1';
       }
       // tonality
       if (0.0 <= dataPoint.tonality <= 1.0) {
@@ -197,29 +197,31 @@ export default {
       zoomFactor = zoomFactor + 0.5;
       let svg = document.getElementsByTagName('svg')[1];
       let containerSVG = document.getElementsByClassName('d3js-container')[0];
-      let scrollY = containerSVG.scrollTop / containerSVG.scrollHeight;
-      let scrollX = containerSVG.scrollLeft / containerSVG.scrollWidth;
+      let scrollY = (containerSVG.scrollTop + containerSVG.clientHeight/(zoomFactor) * 0.25) / containerSVG.scrollHeight;
+      let scrollX = (containerSVG.scrollLeft + containerSVG.clientWidth/(zoomFactor) * 0.25) / containerSVG.scrollWidth;
 
       console.log('=== adjust scroll ===')
       console.log('top: '+ containerSVG.scrollTop);
+      console.log('scrollY: ' + scrollY);
       console.log('height: '+ containerSVG.scrollHeight);
 
       svg.style.transformOrigin = 'top left';
       svg.style.transform = 'scale(' + zoomFactor + ',' + zoomFactor + ')';
 
 
-      containerSVG.scrollTop = scrollY*containerSVG.scrollHeight;
-      containerSVG.scrollLeft = scrollX*containerSVG.scrollWidth;
+      containerSVG.scrollTop = scrollY*containerSVG.scrollHeight //+ zoomFactor * containerSVG.clientHeight * 0.25;
+      containerSVG.scrollLeft = scrollX*containerSVG.scrollWidth //+ zoomFactor * containerSVG.clientWidth * 0.25;
 
       console.log('top: '+ containerSVG.scrollTop);
+      console.log(containerSVG.scrollLeft);
       console.log('height: '+ containerSVG.scrollHeight);
     },
     zoomOut(){
       zoomFactor = zoomFactor - 0.5;
       let svg = document.getElementsByTagName('svg')[1];
       let containerSVG = document.getElementsByClassName('d3js-container')[0];
-      let scrollY = containerSVG.scrollTop / containerSVG.scrollHeight;
-      let scrollX = containerSVG.scrollLeft / containerSVG.scrollWidth;
+      let scrollY = (containerSVG.scrollTop - containerSVG.clientHeight/(zoomFactor) * 0.25) / containerSVG.scrollHeight;
+      let scrollX = (containerSVG.scrollLeft - containerSVG.clientWidth/(zoomFactor) *0.25) / containerSVG.scrollWidth;
 
       console.log('=== adjust scroll ===')
       console.log('top: '+ containerSVG.scrollTop);
