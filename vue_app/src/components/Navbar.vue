@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" id="header">
     <nav>
       <img src="" alt="">
       <a>KP AUDIO: Catalog Browser (Team B)</a>

@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
         data.append(dataPoint)
 
-    reducer = umap.UMAP()
+    reducer = umap.UMAP(min_dist=4.99, n_neighbors=20, spread=5.0)
     data = np.array(data)
 
     scaledData = StandardScaler().fit_transform(data)

@@ -1,5 +1,5 @@
 <template>
-  <div class="MainView" @keyup="move('up')">
+  <div class="MainView">
     <ZoomControls
         v-on:zoom-in="zoomIn()"
         v-on:zoom-out="zoomOut()">
@@ -53,9 +53,12 @@ export default {
     drawGlyphGraph() {
       // create svg object of the graph in the correct DOM Object (this.id)
       // TODO get graph to fill whole height
+      let headerHeight = document.getElementById("header").clientHeight;
+
+
       this.graphDimensions = {
         width: document.getElementById("graph").clientWidth,
-        height: document.getElementById("graph").clientHeight
+        height: window.innerHeight - headerHeight - 25
       }
       console.log(this.graphDimensions.width, this.graphDimensions.height);
 
@@ -154,7 +157,7 @@ export default {
 
     },
     redrawGlyphGraph() {
-      let canvas = document.getElementById(this.id);
+      let canvas = document.getElementById("graph");
       canvas.removeChild(canvas.childNodes[0]);
       this.drawGlyphGraph();
     },
@@ -244,11 +247,11 @@ export default {
     this.drawGlyphGraph();
   }
 }
-
 </script>
 
 <style scoped>
 .MainView {
+
   width: 86%;
   height: available;
   right: 0;
