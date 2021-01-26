@@ -30,7 +30,8 @@ export default {
       graph: Object,
       graphDimensions: {},
       visibleCoordinates: {},
-      startingDimensions: {}
+      startingDimensions: {},
+      audio: new Audio()
     };
   },
   methods: {
@@ -93,17 +94,6 @@ export default {
       let glyphs = graph.selectAll('g').data(this.dataSet).enter();
 
       glyphs.append('circle')
-          .attr('class', 'innerGlyphCircle')
-          .attr('r', `${glyphRadius}px`)
-          .attr('cx', d => xScale(d.x))
-          .attr('cy', d => yScale(d.y))
-          .attr('fill', d => this.circleAttr(d).innerFill)
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
-          .attr('stroke-width', `${glyphRadius / 15.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).inner);
-
-      glyphs.append('circle')
           .attr('class', 'middleGlyphCircle')
           .attr('r', `${glyphRadius * 1.15}px`)
           .attr('cx', d => xScale(d.x))
@@ -123,6 +113,17 @@ export default {
           .attr('stroke-width', `${glyphRadius / 15.0}px`)
           .attr('stroke', 'black')
           .attr('visibility', d => this.circleAttr(d).outer);
+      glyphs.append('circle')
+          .attr('class', 'innerGlyphCircle')
+          .attr('r', `${glyphRadius}px`)
+          .attr('cx', d => xScale(d.x))
+          .attr('cy', d => yScale(d.y))
+          .attr('fill', d => this.circleAttr(d).innerFill)
+          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+          .attr('stroke-width', `${glyphRadius / 15.0}px`)
+          .attr('stroke', 'black')
+          .attr('visibility', d => this.circleAttr(d).inner)
+          .on("click", (d, i) => this.clickOnGlyph(d, i));
     },
     circleAttr(dataPoint) {
       let attr = {
@@ -160,6 +161,14 @@ export default {
       let canvas = document.getElementById("graph");
       canvas.removeChild(canvas.childNodes[0]);
       this.drawGlyphGraph();
+    },
+
+    clickOnGlyph(domObject, dataPoint) {
+      this.audio.pause();
+      console.log(`clicked on ${dataPoint.name}`);
+      this.audio.src = require(`../../../../EXTRACT_FSDKaggle2018.audio_train/${dataPoint.name}.wav`);
+      console.log(this.audio);
+      this.audio.play();
     },
     /*zoom(direction) {
       let  diffX = (this.visibleCoordinates.xMax - this.visibleCoordinates.xMin)  * direction;
