@@ -3,43 +3,48 @@
     <div id="glyph-container">
       here goes the glyph
     </div>
-    <div id="v-model-radiobutton">
-      <span>
-        <input type="radio" id="Stability" value="Stability" v-model="picked"/>
+    <div id="v-model-checkboxes">
+      <p>
+        <input type="checkbox" id="Stability" value="Stability" v-model="checked.stability"
+               v-on:change="$emit('checkboxes-changed', checked)" class="check-input"/>
         <label for="Stability">Stability</label>
-      </span>
-      <span>
-        <input type="radio" id="Loudness" value="Loudness" v-model="picked"/>
+      </p>
+      <p>
+        <input type="checkbox" id="Loudness" value="Loudness" v-model="checked.loudness"
+               v-on:change="$emit('checkboxes-changed', checked)" class="check-input"/>
         <label for="Loudness">Loudness</label>
-      </span>
-      <span>
-        <input type="radio" id="Tonality" value="Tonality" v-model="picked"/>
+      </p>
+      <p>
+        <input type="checkbox" id="Tonality" value="Tonality" v-model="checked.tonality"
+               v-on:change="$emit('checkboxes-changed', checked)" class="check-input"/>
         <label for="Tonality">Tonality</label>
-      </span>
-      <span>
-        <input type="radio" id="Raspiness" value="Raspiness" v-model="picked"/>
+      </p>
+      <p>
+        <input type="checkbox" id="Raspiness" value="Raspiness" v-model="checked.raspiness"
+               v-on:change="$emit('checkboxes-changed', checked)" class="check-input"/>
         <label for="Raspiness">Raspiness</label>
-      </span>
+      </p>
       <span id="container-color">
-        <span>
-          <input type="radio" id="Color" value="Color" v-model="picked"/>
+        <p>
+          <input type="checkbox" id="Color" value="Color" v-model="checked.color"
+                 v-on:change="$emit('checkboxes-changed', checked)" class="check-input"/>
         <label for="Color">Color</label>
-        </span>
+        </p>
         <svg version="1.1" id="LMH" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              viewBox="0 0 269.8 269.8" style="enable-background:new 0 0 269.8 269.8;" xml:space="preserve"
         >
         <rect x="11.2" y="11.2" class="st0" width="247.5" height="247.5"/>
         <g>
           <g>
-            <circle class="st1" cx="175.7" cy="175.8" r="83"/>
-            <circle class="st2" cx="94.2" cy="175.8" r="83"/>
+            <circle class="st1" cx="134.9" cy="175.8" r="83"/>
+<!--            <circle class="st2" cx="94.2" cy="175.8" r="83"/>-->
           </g>
           <circle class="st3" cx="134.9" cy="94.2" r="83"/>
         </g>
         </svg>
 
       </span>
-      <span>Picked: {{ picked }}</span>
+<!--      <span>Picked: {{ picked }}</span>-->
     </div>
   </div>
 </template>
@@ -50,7 +55,19 @@ export default {
 
   data() {
     return {
-      picked: ''
+      checked: {
+        stability: true,
+        loudness: true,
+        tonality: true,
+        color: true,
+        raspiness: true
+      }
+    }
+  },
+  methods: {
+    printcheck(object) {
+      console.log("something has changed");
+      console.log(object);
     }
   }
 
@@ -86,7 +103,7 @@ export default {
   padding-top: 0.5rem;
   border-top: solid #42b983 2px;
   width: 100%;
-  display: flex;
+  display: block;
   align-items: flex-start;
   flex-direction: column;
 }
@@ -102,8 +119,8 @@ export default {
 }
 
 .st1 {
-  opacity: 0.51;
-  fill: #2DABE3;
+  opacity: 0.65;
+  fill: #141e66;
 }
 
 .st2 {
@@ -112,7 +129,7 @@ export default {
 }
 
 .st3 {
-  opacity: 0.51;
-  fill: #E79258;
+  opacity: 0.65;
+  fill: #e6dd32;
 }
 </style>

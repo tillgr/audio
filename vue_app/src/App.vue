@@ -2,7 +2,7 @@
   <div id="app">
   <Navbar ></Navbar>
     <div class="container" id="mainContainer">
-      <Sidebar ></Sidebar>
+      <Sidebar v-on:checkboxes-changed="checkboxChanged"></Sidebar>
       <MainView ref="mainView"></MainView>
     </div>
 <!--    <img alt="Vue logo" src="./assets/logo.png">
@@ -29,6 +29,17 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.resizeContainer);
   },
+  data() {
+    return {
+      checkboxStates: {
+        stability: true,
+        loudness: true,
+        tonality: true,
+        color: true,
+        raspiness: true
+      }
+    }
+  },
   methods: {
     resizeContainer() {
       let headerHeight = document.getElementById("header").clientHeight;
@@ -38,8 +49,19 @@ export default {
       console.log(`header height on resize: ${headerHeight}`);
 
       container.style.height = `${window.innerHeight - headerHeight}px`;
-      this.$refs.mainView.redrawGlyphGraph();
+      this.$refs.mainView.redrawGlyphGraph(this.checkboxStates.stability,
+          this.checkboxStates.loudness, this.checkboxStates.tonality,
+          this.checkboxStates.color, this.checkboxStates.raspiness);
+    },
+    checkboxChanged(newCheckboxStates) {
+      // console.log("checkboxes changed!");
+      // console.log(newCheckboxStates);
+      this.checkboxStates = newCheckboxStates
+      this.$refs.mainView.redrawGlyphGraph(this.checkboxStates.stability,
+          this.checkboxStates.loudness, this.checkboxStates.tonality,
+          this.checkboxStates.color, this.checkboxStates.raspiness);
     }
+
   }
 }
 

@@ -57,9 +57,9 @@ export default {
       }, []));
       console.log(`init with ${this.featureLocationMinMax}`);
     },
-    drawGlyphGraph() {
+    drawGlyphGraph(stability=true, loudness=true, tonality=true, color=true, raspiness=true) {
       // create svg object of the graph in the correct DOM Object (this.id)
-      // TODO get graph to fill whole height
+      let mVue = this;
       let headerHeight = document.getElementById("header").clientHeight;
 
 
@@ -99,6 +99,7 @@ export default {
 
       let glyphs = graph.selectAll('g').data(this.dataSet).enter();
 
+      if (stability) {console.log("stability not shown")}
       /*glyphs.append('circle')
           .attr('class', 'baseCircle')
           .attr('r', `${glyphRadius}px`)
@@ -108,33 +109,55 @@ export default {
           .attr('stroke-dasharray', '0.5, 0.1')
           .attr('stroke-width', `${glyphRadius / 10.0}px`)
           .attr('stroke', "rgb(150,150,0)");*/
-      glyphs.append('circle')
-          .attr('class', 'middleGlyphCircle')
-          .attr('r', `${glyphRadius * 1.15}px`)
-          .attr('cx', d => xScale(d.x))
-          .attr('cy', d => yScale(d.y))
-          .attr('fill', 'none')
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
-          .attr('stroke-width', `${glyphRadius / 15.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).middle);
-      glyphs.append('circle')
-          .attr('class', 'outerGlyphCircle')
-          .attr('r', `${glyphRadius * 1.3}px`)
-          .attr('cx', d => xScale(d.x))
-          .attr('cy', d => yScale(d.y))
-          .attr('fill', 'none')
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
-          .attr('stroke-width', `${glyphRadius / 15.0}px`)
-          .attr('stroke', 'black')
-          .attr('visibility', d => this.circleAttr(d).outer);
+      if (loudness) {
+        glyphs.append('circle')
+            .attr('class', 'middleGlyphCircle')
+            .attr('r', `${glyphRadius * 1.15}px`)
+            .attr('cx', d => xScale(d.x))
+            .attr('cy', d => yScale(d.y))
+            .attr('fill', 'none')
+            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black')
+            .attr('visibility', d => this.circleAttr(d).middle);
+        glyphs.append('circle')
+            .attr('class', 'outerGlyphCircle')
+            .attr('r', `${glyphRadius * 1.3}px`)
+            .attr('cx', d => xScale(d.x))
+            .attr('cy', d => yScale(d.y))
+            .attr('fill', 'none')
+            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black')
+            .attr('visibility', d => this.circleAttr(d).outer);
+      }
+
       glyphs.append('circle')
           .attr('class', 'innerGlyphCircle')
           .attr('r', `${glyphRadius}px`)
           .attr('cx', d => xScale(d.x))
           .attr('cy', d => yScale(d.y))
-          .attr('fill', d => `hsl(${this.circleAttr(d).innerHue}, ${this.circleAttr(d).innerSat}%, ${this.circleAttr(d).innerLum}%)`)
-          .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+          // tonality and color
+          .attr('fill', function(d) {
+            let hue= 202;
+            let sat = 80;
+            let lum = 57;
+            // let attr = this.circleAttr(d);
+            if (tonality) {
+              sat = mVue.circleAttr(d).innerSat;
+            }
+            if (color) {
+              hue = mVue.circleAttr(d).innerHue;
+              lum = mVue.circleAttr(d).innerLum;
+            }
+            return `hsl(${hue}, ${sat}%, ${lum}%)`;
+          })
+          // raspiness
+          .attr('stroke-dasharray', function(d) {
+            if (raspiness) {
+              return mVue.circleAttr(d).strokeDasharray;
+            }
+          })
           .attr('stroke-width', `${glyphRadius / 15.0}px`)
           .attr('stroke', 'black')
           .attr('visibility', d => this.circleAttr(d).inner)
@@ -191,10 +214,10 @@ export default {
       return attr
 
     },
-    redrawGlyphGraph() {
+    redrawGlyphGraph(stability, loudness, tonality, color, raspiness) {
       let canvas = document.getElementById("graph");
       canvas.removeChild(canvas.childNodes[0]);
-      this.drawGlyphGraph();
+      this.drawGlyphGraph(stability, loudness, tonality, color, raspiness);
     },
 
     clickOnGlyph(domObject, dataPoint) {
