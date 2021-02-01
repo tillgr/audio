@@ -32,7 +32,8 @@ export default {
       visibleCoordinates: {},
       startingDimensions: {},
       featureLocationMinMax: {},
-      audio: new Audio()
+      audio: new Audio(),
+      lastScroll: {}
     };
   },
   methods: {
@@ -51,6 +52,8 @@ export default {
         yMax: yMinMax[1] + 1
       };
       this.startingDimensions = this.visibleCoordinates;
+
+      this.lastScroll = {x: 0, y: 0};
 
       this.featureLocationMinMax = d3.extent(this.dataSet.reduce(function (a, b) {
         return a.concat(b.location);
@@ -116,7 +119,11 @@ export default {
             .attr('cx', d => xScale(d.x))
             .attr('cy', d => yScale(d.y))
             .attr('fill', 'none')
-            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+            .attr('stroke-dasharray', function(d) {
+              if (raspiness) {
+                return mVue.circleAttr(d).strokeDasharray;
+              }
+            })
             .attr('stroke-width', `${glyphRadius / 15.0}px`)
             .attr('stroke', 'black')
             .attr('visibility', d => this.circleAttr(d).middle);
@@ -126,7 +133,11 @@ export default {
             .attr('cx', d => xScale(d.x))
             .attr('cy', d => yScale(d.y))
             .attr('fill', 'none')
-            .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
+            .attr('stroke-dasharray', function(d) {
+              if (raspiness) {
+                return mVue.circleAttr(d).strokeDasharray;
+              }
+            })
             .attr('stroke-width', `${glyphRadius / 15.0}px`)
             .attr('stroke', 'black')
             .attr('visibility', d => this.circleAttr(d).outer);
@@ -215,9 +226,16 @@ export default {
 
     },
     redrawGlyphGraph(stability, loudness, tonality, color, raspiness) {
+
       let canvas = document.getElementById("graph");
+      let containerSVG = document.getElementsByClassName('d3js-container')[0];
+
+      this.lastScroll.x = containerSVG.scrollLeft;
+      this.lastScroll.y = containerSVG.scrollTop;
+
       canvas.removeChild(canvas.childNodes[0]);
       this.drawGlyphGraph(stability, loudness, tonality, color, raspiness);
+      this.zoomToRecent();
     },
 
     clickOnGlyph(domObject, dataPoint) {
@@ -277,6 +295,9 @@ export default {
       svg.style.transformOrigin = 'top left';
       svg.style.transform = 'scale(' + zoomFactor + ',' + zoomFactor + ')';
 
+      // dum save of scrolling position
+      this.lastScroll.y = scrollY*containerSVG.scrollHeight;
+      this.lastScroll.x = scrollX*containerSVG.scrollWidth;
 
       containerSVG.scrollTop = scrollY*containerSVG.scrollHeight //+ zoomFactor * containerSVG.clientHeight * 0.25;
       containerSVG.scrollLeft = scrollX*containerSVG.scrollWidth //+ zoomFactor * containerSVG.clientWidth * 0.25;
@@ -299,13 +320,25 @@ export default {
       svg.style.transformOrigin = 'top left';
       svg.style.transform = 'scale(' + zoomFactor + ',' + zoomFactor + ')';
 
+      // dum save of scrolling position
+      this.lastScroll.y = scrollY*containerSVG.scrollHeight;
+      this.lastScroll.x = scrollX*containerSVG.scrollWidth;
 
       containerSVG.scrollTop = scrollY*containerSVG.scrollHeight;
       containerSVG.scrollLeft = scrollX*containerSVG.scrollWidth;
 
       console.log('top: '+ containerSVG.scrollTop);
       console.log('height: '+ containerSVG.scrollHeight);
+    },
+    zoomToRecent() {
+      let svg = document.getElementsByTagName('svg')[1];
+      let containerSVG = document.getElementsByClassName('d3js-container')[0];
 
+      svg.style.transformOrigin = 'top left';
+      svg.style.transform = 'scale(' + zoomFactor + ',' + zoomFactor + ')';
+
+      containerSVG.scrollTop = this.lastScroll.y;
+      containerSVG.scrollLeft = this.lastScroll.x;
     }
   },
   mounted() {
