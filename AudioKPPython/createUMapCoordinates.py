@@ -67,8 +67,8 @@ if __name__ == "__main__":
             completeDict.append(singleEntry)
 
             # write single entry files
-            filename = "coord/{}_coo.json".format(names[i])
-            json.dump(singleEntry, open(filename, 'w', encoding='utf-8'), indent=4)
+            # filename = "coord/{}_coo.json".format(names[i])
+            # json.dump(singleEntry, open(filename, 'w', encoding='utf-8'), indent=4)
 
         json.dump(completeDict, open("coord/completeDict.json", 'w', encoding='utf-8'), indent=4)
 
