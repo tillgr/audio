@@ -31,6 +31,7 @@ export default {
       graphDimensions: {},
       visibleCoordinates: {},
       startingDimensions: {},
+      featureLocationMinMax: {},
       audio: new Audio()
     };
   },
@@ -50,6 +51,11 @@ export default {
         yMax: yMinMax[1] + 1
       };
       this.startingDimensions = this.visibleCoordinates;
+
+      this.featureLocationMinMax = d3.extent(this.dataSet.reduce(function (a, b) {
+        return a.concat(b.location);
+      }, []));
+      console.log(`init with ${this.featureLocationMinMax}`);
     },
     drawGlyphGraph() {
       // create svg object of the graph in the correct DOM Object (this.id)
@@ -93,6 +99,15 @@ export default {
 
       let glyphs = graph.selectAll('g').data(this.dataSet).enter();
 
+      /*glyphs.append('circle')
+          .attr('class', 'baseCircle')
+          .attr('r', `${glyphRadius}px`)
+          .attr('cx', d => xScale(d.x))
+          .attr('cy', d => yScale(d.y) + this.circleAttr(d).yShift * glyphRadius)
+          .attr('fill', "none")
+          .attr('stroke-dasharray', '0.5, 0.1')
+          .attr('stroke-width', `${glyphRadius / 10.0}px`)
+          .attr('stroke', "rgb(150,150,0)");*/
       glyphs.append('circle')
           .attr('class', 'middleGlyphCircle')
           .attr('r', `${glyphRadius * 1.15}px`)
@@ -118,7 +133,7 @@ export default {
           .attr('r', `${glyphRadius}px`)
           .attr('cx', d => xScale(d.x))
           .attr('cy', d => yScale(d.y))
-          .attr('fill', d => this.circleAttr(d).innerFill)
+          .attr('fill', d => `hsl(${this.circleAttr(d).innerHue}, ${this.circleAttr(d).innerSat}%, ${this.circleAttr(d).innerLum}%)`)
           .attr('stroke-dasharray', d => this.circleAttr(d).strokeDasharray)
           .attr('stroke-width', `${glyphRadius / 15.0}px`)
           .attr('stroke', 'black')
@@ -130,8 +145,10 @@ export default {
         inner: 'hidden',
         middle: 'hidden',
         outer: 'hidden',
-        innerFill: 'none',
-        strokeDasharray: '5, 0'
+        innerSat: 100,
+        innerHue: 202,
+        innerLum: 57,
+        strokeDasharray: '5, 0',
       }
       // loudness
       if (dataPoint.loudness > 0.0) {
@@ -151,9 +168,26 @@ export default {
       }
       // tonality
       if (0.0 <= dataPoint.tonality <= 1.0) {
-        const saturation = (dataPoint.tonality - 0.2) / 0.3 * 100;
-        attr.innerFill = `hsl(202, ${saturation}%, 57%)`;
+        const saturation = (dataPoint.tonality *2)**2 *80;//(dataPoint.tonality - 0.15) / 0.35 * 100;
+        attr.innerSat = saturation;
       }
+      //location
+      let normLocation = (dataPoint.location - this.featureLocationMinMax[0])
+          / (this.featureLocationMinMax[1] - this.featureLocationMinMax[0]);
+      if (normLocation < 0.2) {
+        attr.innerHue = 230;
+      } else if (normLocation < 0.4) {
+        attr.innerHue = 214;
+      } else if (normLocation < 0.6) {
+        attr.innerHue = 202;
+      } else if (normLocation < 0.8) {
+        attr.innerHue = 47;
+      } else {
+        attr.innerHue = 65;
+      }
+      // attr.innerHue = 202 //(normLocation * 40) + 196 // hue values from 196 to 236 linearly
+      attr.innerLum = (normLocation * 30)+40;
+
       return attr
 
     },

@@ -118,7 +118,7 @@ if __name__ == "__main__":
     np_spectral_flux = np.array(spectral_flux)
     np_spectral_flux_stdev = np.array(spectral_flux_stdev)
     plot_data("spectral flux", "power", np_spectral_flux, errpl=True, err=np_spectral_flux_stdev)
-    make_hist("spectral flux", "power", np_spectral_flux, numbins=30)
+    make_hist("spectral flux", "power", np.sqrt(np_spectral_flux), numbins=30)
 
     # dissonance
     np_dissonance = np.array(dissonance)

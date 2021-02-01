@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
         data.append(dataPoint)
 
-    reducer = umap.UMAP(min_dist=4.99, n_neighbors=20, spread=5.0)
+    reducer = umap.UMAP(min_dist=4.99, n_neighbors=200, spread=5.0)
     data = np.array(data)
 
     scaledData = StandardScaler().fit_transform(data)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
                            'loudness': float(data[i][0]),
                            'raspiness': float(data[i][1]),
                            'color': float(data[i][2]),
-                           'location': float(data[i][3]),
+                           'location': float(np.sqrt(data[i][3])),
                            'stability': float(data[i][4]),
                            'tonality': float(data[i][5])}
             completeDict.append(singleEntry)
