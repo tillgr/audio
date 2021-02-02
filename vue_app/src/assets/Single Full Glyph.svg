@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+     y="0px"
+     width="1417.3px" height="1417.3px" viewBox="0 0 1417.3 1417.3" enable-background="new 0 0 1417.3 1417.3"
+     xml:space="preserve">
+
+    <style>
+        #first:hover{
+            animation: blueblue 10000ms 0ms infinite linear;
+        }
+        @keyframes blueblue {
+        0% {
+            filter: hue-rotate(0deg);
+        }
+        100% {
+            filter: hue-rotate(180deg);
+            }
+        }
+
+    </style>
+    <circle id="first" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+            stroke-miterlimit="10" cx="708.7" cy="708.7" r="525.1">
+        <!--<animate attributeType="xml" attributeName="fill" from="#406FB5" to="green" begin="mouseover"
+                 dur="1s"></animate>
+        <animate attributeType="xml" attributeName="fill" from="green" to="yellow" begin="mouseover+1"
+                 dur="1s"></animate>
+        <animate attributeType="xml" attributeName="fill" from="yellow" to="orange" begin="mouseover+2"
+                 dur="1s"></animate>-->
+    </circle>
+    <circle fill="none" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+            stroke-miterlimit="10" cx="708.7" cy="708.7" r="604.5" opacity="0.1">
+        <animate attributeType="xml" attributeName="opacity" from="0.1" to="1" begin="mouseover" dur="1s"></animate>
+    </circle>
+    <circle fill="none" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+            stroke-miterlimit="10" cx="708.7" cy="708.7" r="683.2" opacity="0.1">
+         <animate attributeType="xml" attributeName="opacity" from="0.1" to="1" begin="mouseover" dur="1s"></animate>
+    </circle>
+    <line class="shorter" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+          stroke-miterlimit="10" x1="474.7" y1="551.1" x2="942.7" y2="551.1">
+        <animate attributeType="xml" attributeName="x2" from="942.7" to="708.7" begin="mouseover" dur="2s"></animate>
+    </line>
+    <line class="shorter" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+          stroke-miterlimit="10" x1="474.7" y1="713.5" x2="942.7" y2="713.5">
+        <animate attributeType="xml" attributeName="x2" from="942.7" to="708.7" begin="mouseover" dur="2s"></animate>
+    </line>
+    <line fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+          stroke-miterlimit="10" x1="474.7" y1="875.9" x2="942.7" y2="875.9">
+
+    </line>
+</svg>
+

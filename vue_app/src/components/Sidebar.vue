@@ -1,7 +1,35 @@
 <template>
   <div class="sidebar">
     <div id="glyph-container">
-      here goes the glyph
+      <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+           y="0px"
+           width="90%" height="90%"
+           viewBox="0 0 1417.3 1417.3" enable-background="new 0 0 1417.3 1417.3"
+           xml:space="preserve">
+        <circle class="circle" id="first" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+                stroke-miterlimit="10" cx="708.7" cy="708.7" r="525.1">
+    </circle>
+        <circle class="circle" fill="none" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+                stroke-miterlimit="10" cx="708.7" cy="708.7" r="604.5" opacity="0.1">
+        <animate attributeType="xml" attributeName="opacity" from="0.1" to="1" begin="mouseover" dur="1s"></animate>
+    </circle>
+        <circle class="circle" fill="none" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+                stroke-miterlimit="10" cx="708.7" cy="708.7" r="683.2" opacity="0.1">
+         <animate attributeType="xml" attributeName="opacity" from="0.1" to="1" begin="mouseover" dur="1s"></animate>
+    </circle>
+        <line class="shorter" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+              stroke-miterlimit="10" x1="474.7" y1="551.1" x2="942.7" y2="551.1">
+        <animate attributeType="xml" attributeName="x2" from="942.7" to="708.7" begin="mouseover" dur="1s"></animate>
+    </line>
+        <line class="shorter" fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+              stroke-miterlimit="10" x1="474.7" y1="713.5" x2="942.7" y2="713.5">
+        <animate attributeType="xml" attributeName="x2" from="942.7" to="708.7" begin="mouseover" dur="1s"></animate>
+    </line>
+        <line fill="#406FB5" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"
+              stroke-miterlimit="10" x1="474.7" y1="875.9" x2="942.7" y2="875.9">
+
+    </line>
+</svg>
     </div>
     <div id="v-model-checkboxes">
       <p>
@@ -131,5 +159,29 @@ export default {
 .st3 {
   opacity: 0.65;
   fill: #e6dd32;
+}
+
+#first:hover{
+  animation: blueblue 2000ms 0ms linear;
+  stroke-dasharray: 100;
+}
+@keyframes blueblue {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(180deg);
+    stroke-dashoffset: 1000;
+  }
+}
+circle:hover{
+  stroke-dasharray: 100;
+  animation: dash 2s infinite linear;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
 }
 </style>
