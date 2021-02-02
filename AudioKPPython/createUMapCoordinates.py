@@ -60,8 +60,8 @@ if __name__ == "__main__":
                            'loudness': float(data[i][0]),
                            'raspiness': float(data[i][1]),
                            'color': float(data[i][2]),
-                           'stability': float(data[i][4]),
-                           'tonality': float(data[i][5])}
+                           'stability': float(data[i][3]),
+                           'tonality': float(data[i][4])}
             completeDict.append(singleEntry)
 
             # write single entry files

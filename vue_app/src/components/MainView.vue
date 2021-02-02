@@ -31,7 +31,7 @@ export default {
       graphDimensions: {},
       visibleCoordinates: {},
       startingDimensions: {},
-      featureLocationMinMax: {},
+      featureColorMinMax: {},
       audio: new Audio(),
       lastScroll: {}
     };
@@ -55,10 +55,10 @@ export default {
 
       this.lastScroll = {x: 0, y: 0};
 
-      this.featureLocationMinMax = d3.extent(this.dataSet.reduce(function (a, b) {
-        return a.concat(b.location);
+      this.featureColorMinMax = d3.extent(this.dataSet.reduce(function (a, b) {
+        return a.concat(b.color);
       }, []));
-      console.log(`init with ${this.featureLocationMinMax}`);
+      console.log(`init with ${this.featureColorMinMax}`);
     },
     drawGlyphGraph(stability=false, loudness=true, tonality=true, color=true, raspiness=true) {
       // create svg object of the graph in the correct DOM Object (this.id)
@@ -234,23 +234,23 @@ export default {
       if (0.0 <= dataPoint.tonality <= 1.0) {
         attr.innerSat = (dataPoint.tonality *2)**2 *80;//(dataPoint.tonality - 0.15) / 0.35 * 100;
       }
-      //location
-      let normLocation = (dataPoint.location - this.featureLocationMinMax[0])
-          / (this.featureLocationMinMax[1] - this.featureLocationMinMax[0]);
+      // color
+      let color = (dataPoint.color - this.featureColorMinMax[0])
+          / (this.featureColorMinMax[1] - this.featureColorMinMax[0]);
       // attr.innerHue = normLocation * 60 + 170;
-      if (normLocation < 0.2) {
+      if (color < 0.2) {
         attr.innerHue = 230;
-      } else if (normLocation < 0.4) {
+      } else if (color < 0.4) {
         attr.innerHue = 210;
-      } else if (normLocation < 0.6) {
+      } else if (color < 0.6) {
         attr.innerHue = 190;
-      } else if (normLocation < 0.8) {
+      } else if (color < 0.8) {
         attr.innerHue = 125;
       } else {
         attr.innerHue = 110;
       }
       // attr.innerHue = 202 //(normLocation * 40) + 196 // hue values from 196 to 236 linearly
-      attr.innerLum = (normLocation * 30)+40;
+      attr.innerLum = (color * 30)+40;
 
       // stability
       if(dataPoint.stability > 0.4) {
