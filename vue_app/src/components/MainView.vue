@@ -77,6 +77,7 @@ export default {
 
       const svg = d3.select(`#${this.id}`)
           .append('svg')
+          .attr('id', 'sample_svg')
           .attr('viewBox', '0, 0,' + this.graphDimensions.width + ', ' + this.graphDimensions.height)
           .attr('width', this.graphDimensions.width)
           .attr('height', this.graphDimensions.height)
@@ -318,7 +319,7 @@ export default {
     }*/
     zoomIn() {
       zoomFactor = zoomFactor + 0.5;
-      let svg = document.getElementsByTagName('svg')[1];
+      let svg = document.getElementById('sample_svg');
       let containerSVG = document.getElementsByClassName('d3js-container')[0];
       let scrollY = (containerSVG.scrollTop + containerSVG.clientHeight/(zoomFactor) * 0.25) / containerSVG.scrollHeight;
       let scrollX = (containerSVG.scrollLeft + containerSVG.clientWidth/(zoomFactor) * 0.25) / containerSVG.scrollWidth;
@@ -344,7 +345,7 @@ export default {
     },
     zoomOut(){
       zoomFactor = zoomFactor - 0.5;
-      let svg = document.getElementsByTagName('svg')[1];
+      let svg = document.getElementById('sample_svg');
       let containerSVG = document.getElementsByClassName('d3js-container')[0];
       let scrollY = (containerSVG.scrollTop - containerSVG.clientHeight/(zoomFactor) * 0.25) / containerSVG.scrollHeight;
       let scrollX = (containerSVG.scrollLeft - containerSVG.clientWidth/(zoomFactor) *0.25) / containerSVG.scrollWidth;
@@ -367,7 +368,7 @@ export default {
       console.log('height: '+ containerSVG.scrollHeight);
     },
     zoomToRecent() {
-      let svg = document.getElementsByTagName('svg')[1];
+      let svg = document.getElementById('sample_svg');
       let containerSVG = document.getElementsByClassName('d3js-container')[0];
 
       svg.style.transformOrigin = 'top left';
