@@ -202,22 +202,22 @@ export default {
       }
       // tonality
       if (0.0 <= dataPoint.tonality <= 1.0) {
-        const saturation = (dataPoint.tonality *2)**2 *80;//(dataPoint.tonality - 0.15) / 0.35 * 100;
-        attr.innerSat = saturation;
+        attr.innerSat = (dataPoint.tonality *2)**2 *80;//(dataPoint.tonality - 0.15) / 0.35 * 100;
       }
       //location
       let normLocation = (dataPoint.location - this.featureLocationMinMax[0])
           / (this.featureLocationMinMax[1] - this.featureLocationMinMax[0]);
+      // attr.innerHue = normLocation * 60 + 170;
       if (normLocation < 0.2) {
         attr.innerHue = 230;
       } else if (normLocation < 0.4) {
-        attr.innerHue = 214;
+        attr.innerHue = 210;
       } else if (normLocation < 0.6) {
-        attr.innerHue = 202;
+        attr.innerHue = 190;
       } else if (normLocation < 0.8) {
-        attr.innerHue = 47;
+        attr.innerHue = 125;
       } else {
-        attr.innerHue = 65;
+        attr.innerHue = 110;
       }
       // attr.innerHue = 202 //(normLocation * 40) + 196 // hue values from 196 to 236 linearly
       attr.innerLum = (normLocation * 30)+40;
@@ -357,7 +357,7 @@ export default {
 }
 
 .zoomControls {
-  /*float: right;*/
+  float: right;
   /*margin-right: 0.5rem;
   margin-top: 0.5rem;*/
   z-index: 3;
