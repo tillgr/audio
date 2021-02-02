@@ -60,7 +60,7 @@ export default {
       }, []));
       console.log(`init with ${this.featureLocationMinMax}`);
     },
-    drawGlyphGraph(stability=true, loudness=true, tonality=true, color=true, raspiness=true) {
+    drawGlyphGraph(stability=false, loudness=true, tonality=true, color=true, raspiness=true) {
       // create svg object of the graph in the correct DOM Object (this.id)
       let mVue = this;
       let headerHeight = document.getElementById("header").clientHeight;
@@ -115,7 +115,7 @@ export default {
       if (loudness) {
         glyphs.append('circle')
             .attr('class', 'middleGlyphCircle')
-            .attr('r', `${glyphRadius * 1.15}px`)
+            .attr('r', `${glyphRadius * 1.2}px`)
             .attr('cx', d => xScale(d.x))
             .attr('cy', d => yScale(d.y))
             .attr('fill', 'none')
@@ -129,7 +129,7 @@ export default {
             .attr('visibility', d => this.circleAttr(d).middle);
         glyphs.append('circle')
             .attr('class', 'outerGlyphCircle')
-            .attr('r', `${glyphRadius * 1.3}px`)
+            .attr('r', `${glyphRadius * 1.4}px`)
             .attr('cx', d => xScale(d.x))
             .attr('cy', d => yScale(d.y))
             .attr('fill', 'none')
@@ -173,6 +173,34 @@ export default {
           .attr('stroke', 'black')
           .attr('visibility', d => this.circleAttr(d).inner)
           .on("click", (d, i) => this.clickOnGlyph(d, i));
+
+      // stbility
+      if (stability) {
+        glyphs.append('line')
+            .attr('class', 'stability line')
+            .attr('x1', d => (xScale(d.x) - glyphRadius *0.4))
+            .attr('y1', d => (yScale(d.y) - glyphRadius *0.3))
+            .attr('x2', d => (xScale(d.x) + glyphRadius *0.4 * mVue.circleAttr(d).stab.top))
+            .attr('y2', d => (yScale(d.y) - glyphRadius *0.3))
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black');
+        glyphs.append('line')
+            .attr('class', 'stability line')
+            .attr('x1', d => (xScale(d.x) - glyphRadius *0.4))
+            .attr('y1', d => yScale(d.y))
+            .attr('x2', d => (xScale(d.x) + glyphRadius *0.4 * mVue.circleAttr(d).stab.middle))
+            .attr('y2', d => yScale(d.y))
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black');
+        glyphs.append('line')
+            .attr('class', 'stability line')
+            .attr('x1', d => (xScale(d.x) - glyphRadius *0.4))
+            .attr('y1', d => (yScale(d.y) + glyphRadius *0.3))
+            .attr('x2', d => (xScale(d.x) + glyphRadius *0.4))
+            .attr('y2', d => (yScale(d.y) + glyphRadius *0.3))
+            .attr('stroke-width', `${glyphRadius / 15.0}px`)
+            .attr('stroke', 'black');
+      }
     },
     circleAttr(dataPoint) {
       let attr = {
@@ -183,6 +211,7 @@ export default {
         innerHue: 202,
         innerLum: 57,
         strokeDasharray: '5, 0',
+        stab: { top: 0, middle: 0}
       }
       // loudness
       if (dataPoint.loudness > 0.0) {
@@ -222,6 +251,13 @@ export default {
       // attr.innerHue = 202 //(normLocation * 40) + 196 // hue values from 196 to 236 linearly
       attr.innerLum = (normLocation * 30)+40;
 
+      // stability
+      if(dataPoint.stability > 0.4) {
+        attr.stab.middle = 1
+      }
+      if(dataPoint.stability > 0.6) {
+        attr.stab.top = 1
+      }
       return attr
 
     },

@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       checked: {
-        stability: true,
+        stability: false,
         loudness: true,
         tonality: true,
         color: true,

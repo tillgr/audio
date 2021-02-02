@@ -35,7 +35,6 @@ if __name__ == "__main__":
 
         dataPoint.append(jsonData["lowlevel"]["average_loudness"])
         dataPoint.append(jsonData["lowlevel"]["zerocrossingrate"]["mean"])
-        dataPoint.append(jsonData["lowlevel"]["hfc"]["mean"])
         dataPoint.append(jsonData["lowlevel"]["spectral_centroid"]["mean"])
         dataPoint.append(jsonData["lowlevel"]["pitch_salience"]["mean"])
         dataPoint.append(jsonData["lowlevel"]["dissonance"]["mean"])
@@ -61,7 +60,6 @@ if __name__ == "__main__":
                            'loudness': float(data[i][0]),
                            'raspiness': float(data[i][1]),
                            'color': float(data[i][2]),
-                           'location': float(np.sqrt(data[i][3])),
                            'stability': float(data[i][4]),
                            'tonality': float(data[i][5])}
             completeDict.append(singleEntry)
