@@ -10,7 +10,7 @@ Till Große, Markus Forbrig
 ```
 npm install
 ```
-For this Application to run properly ou need to provide the audio files from  
+For this Application to run properly you need to provide the audio files from  
 [FSDKaggle2018 | Zenodo](https://zenodo.org/record/2552860#.YCZS2C1oRp8). 
 ([*direct Link*](https://zenodo.org/record/2552860/files/FSDKaggle2018.audio_train.zip?download=1))
 (last accessed on the 12th of February 2020)  
