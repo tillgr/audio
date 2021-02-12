@@ -59,3 +59,4 @@ npm run lint
         * Contains zoom in (+) and toom out (-) buttons that emit custom  
         events when clicked. These custom events are then handled in MainView.
 
+![Component Diagram of Vue App](../images/component_diagarm.png)
