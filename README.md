@@ -1,54 +1,38 @@
 # AudioFeature-B
-Todo: 
-* Cinder Anwendung 
-    * audio features mit Essentia extrahieren 
-    * später dann Visualisierung 
 
-**up next**
-* read extracted features from yaml file into cinder app
+**Prototyp im Rahmen des Komplexpraktikums [Visual] Audio Processing**  
+Institut für Software- und Multimediatechnik, Professur für Mediengestaltung  
+Technische Universität Dresden, Fakultät Informatik  
+WiSe 2020/2021  
+Till Große, Markus Forbrig
 
+**Aufbau des Repositorys:**
+* AudioKPPython
+    * Pythonskript zur Visuellen Analyse extrahierter Daten
+    * Pythonskript zur Berechnung der Dimensionsreduktion (UMAP)
+* ExtractionFSDKaggle2018
+    * ZSHskript um kompilierten Essentia Extraktor auf alle FSDKaggle Datein   
+    anzuwenden  
+    (kompilierter Extraktor muss dafür in dieses Verzeichnis gelegt werden)
+* images
+    * Bilder für dieses Readme
+* vue_app
+    * Vue App Implementierung des Prototyps
+    * Anleitung zum Ausführen des Prototypen separat in dem Verzeichnis
 
-![timetable](/images/zeitplanKPAudio.png)
-
-Features: 
-* [x] avg Loudness (RMS, …) 
-* [x] spectral flux
-* [ ] FrequencyBands
-* [x] SpectralCentroid
-* [x] SpectralComplexity
-* [ ] (SpectralPeaks)
-
-
-* spectral 
-* [x]  MelBands 
-* [x]  MFCC 
-* [x]  HFC 
-* [x]  Spectral Contrast 
-* [ ]  (Panning) 
-* [x]  Inharmonicity/dissonace
- 
-* Time 
-* [x]  ZCR 
-* [ ]  Leq, LARM, Loudness and LoudnessVicker 
-
-* Tonal  
-* [x]  HPCP/ Chroma
-* [ ]  PitchYinFFT 
-* [ ]  (tuning frequency) 
-* [x]  (key)
-* [ ]  (use TonalExtractor?)
-
-* Rhythm 
-* [ ]  BpmHistogramDescriptors/ BpmHistogram
-* [ ]  (TempoCNN)
-
-* SFX descriptors 
-* [ ]  TCToTotal 
-* [ ]  (MaxToTotal and MinToTotal) 
-
-* Other high-level descriptors 
-* [x]  DynamicComplexity  
-
-* [ ]  Additionally look for audio problems? 
-
-![screenshot from consultation](/images/features_screenshot.png)
+**Externe Ressourcen**
+* Audio Datein: FSDKaggel2018  
+    * Seite: [FSDKaggle2018 | Zenodo](https://zenodo.org/record/2552860#.YCZS2C1oRp8)
+    * direkter Link: [FSDKaggle2018.audio_train.zip](https://zenodo.org/record/2552860/files/FSDKaggle2018.audio_train.zip?download=1)  
+    (beide zuletzt Abgerufen am 12. Februar 2020)  
+    Das Verzeichnis (Name: "EXTRACT_FSDKaggle2018.audio_train") mit den  
+    Audiodatein muss dabei im gleichen Verzeichnis wie das Repository liegen.
+* Die Pythonskripte nutzen u.a. folgende Packages
+    * Numpy
+    * Matplotlib (pyplot)
+    * JSON
+    * Pathlib
+    * Collections
+    * UMap
+    * Sklearn (preprocessing)
+    
